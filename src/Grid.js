@@ -1,7 +1,9 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
+import createRooms from './createRooms';
 
-export default function Grid ({gridMap, dispatch, grid, squareState}){
+export default function Grid ({gridMap, dispatch, grid, setGrid, brush, squareState}){
     
+let [clickedCell, setClickCell] = useState([]);
 
  const keyDownListener = ({keyCode}) => {
      console.log(gridMap.current);
@@ -10,7 +12,6 @@ export default function Grid ({gridMap, dispatch, grid, squareState}){
 
 
     useEffect(() => {
-
         document.addEventListener('keydown', keyDownListener)
 
         return () => {
@@ -31,6 +32,18 @@ export default function Grid ({gridMap, dispatch, grid, squareState}){
         })
       }
 
+      function onClick(event, i , j){
+        event.stopPropagation();
+        console.log(i, j);
+        let newGrid = [...grid];
+        if (brush === 'floor'){
+          newGrid[i][j] = 'x';
+          console.log(newGrid[i][j]);
+        } else if (brush === 'wall'){
+          newGrid[i][j] = '';
+        }
+        setGrid([newGrid, [squareState.y, squareState.x]]);
+      }
     return (
         <table>
         <tbody>
@@ -41,6 +54,9 @@ export default function Grid ({gridMap, dispatch, grid, squareState}){
                 return (
                 <td
                     key={`col-${j}`}
+                    onClick={(event) => {
+
+                      onClick(event, i, j)}}
                     style={{
                     margin: 0, 
                     width: 20, 
