@@ -25,9 +25,9 @@ let [clickedCell, setClickCell] = useState([]);
         return roomGrid.map((row, indX) => {
           return row.map((cell, indY) => {
             if (squareState.x === indX && squareState.y === indY) {
-              return cell = 'red';
+              return cell = 'coral';
             } 
-            return cell === 'x' ? 'green' : 'black'; 
+            return cell === 'x' ? 'lightblue' : '#EDEDED'; 
           })
         })
       }
@@ -41,8 +41,12 @@ let [clickedCell, setClickCell] = useState([]);
           console.log(newGrid[i][j]);
         } else if (brush === 'wall'){
           newGrid[i][j] = '';
+        } else if (brush === 'start'){
+          dispatch({type: "CLICK", payload: {x: i, y: j}})
         }
-        setGrid([newGrid, [squareState.y, squareState.x]]);
+        if (brush !== 'start') {
+          setGrid([newGrid, [squareState.y, squareState.x]]);
+        }
       }
     return (
         <table>
@@ -54,9 +58,7 @@ let [clickedCell, setClickCell] = useState([]);
                 return (
                 <td
                     key={`col-${j}`}
-                    onClick={(event) => {
-
-                      onClick(event, i, j)}}
+                    onClick={(event) => {onClick(event, i, j)}}
                     style={{
                     margin: 0, 
                     width: 20, 

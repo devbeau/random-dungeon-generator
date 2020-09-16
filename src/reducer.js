@@ -23,6 +23,8 @@ export function reducer(state, action){
                return {...state, x: state.x + 1 }
             }
             else return state;
+        case 'CLICK':
+                return {x: action.payload.x, y: action.payload.y};
         case 'RESET':
                 return init(action.payload);
         default:
