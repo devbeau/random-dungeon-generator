@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import createRooms from './createRooms';
 
-export default function Grid ({gridMap, dispatch, grid, setGrid, brush, squareState}){
+export default function Grid ({gridMap, dispatch, grid, setGrid, brush, squareState, endSquare, setEndSquare}){
     
 let [clickedCell, setClickCell] = useState([]);
 
@@ -26,7 +26,9 @@ let [clickedCell, setClickCell] = useState([]);
           return row.map((cell, indY) => {
             if (squareState.x === indX && squareState.y === indY) {
               return cell = 'coral';
-            } 
+            } else if (endSquare.x ===indX && endSquare.y === indY){
+              return cell = 'yellow';
+            }
             return cell === 'x' ? 'lightblue' : '#EDEDED'; 
           })
         })
@@ -43,6 +45,8 @@ let [clickedCell, setClickCell] = useState([]);
           newGrid[i][j] = '';
         } else if (brush === 'start'){
           dispatch({type: "CLICK", payload: {x: i, y: j}})
+        } else if (brush === 'end'){
+          setEndSquare({x: i, y: j});
         }
         if (brush !== 'start') {
           setGrid([newGrid, [squareState.y, squareState.x]]);

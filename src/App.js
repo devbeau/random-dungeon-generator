@@ -15,6 +15,7 @@ function App() {
   const [[grid, initialPos], setGrid] = useState(createRooms(initialGrid));
   let [squareState, dispatch] = useReducer(reducer, initialPos);
   let [gridMap, _setGridMap] = useState(generateHashMap(grid));
+  let [endSquare, setEndSquare] = useState([]);
   let [brush, setBrush] = useState('');
 
   const gridRef = useRef(gridMap);
@@ -57,6 +58,8 @@ function App() {
       squareState={squareState}
       gridMap={gridRef}
       brush={brush}
+      endSquare={endSquare}
+      setEndSquare={setEndSquare}
       />
       <button onClick={onClick}> Generate Dungeon</button>
     </div>
